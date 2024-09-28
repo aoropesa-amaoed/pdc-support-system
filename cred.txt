@@ -1,0 +1,8 @@
+user: arjayoropesa23
+pass: NpYbXPbnlUfFfpCB
+
+7Nv5LP37y7xanINF
+
+mongodb+srv://<db_username>:<db_password>@cluster0.98ytndt.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0
+
+mongodb+srv://arjayoropesa23:<db_password>@arjaydb.cp1gn5r.mongodb.net/?retryWrites=true&w=majority&appName=ArjayDB
