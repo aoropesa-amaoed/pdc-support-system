@@ -1,6 +1,6 @@
 import axios from "axios";
 
-const baseUrl = 'https://pdc-support-system.onrender.com/outlets';
+const baseUrl = 'http://localhost:3001/outlets';
 
 async function getOutlets() {
     const response = await axios.get(baseUrl);
