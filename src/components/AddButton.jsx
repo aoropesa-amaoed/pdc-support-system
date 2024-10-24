@@ -1,7 +1,6 @@
 import React, { useState } from 'react'
-import { Button, Dialog, DialogActions, DialogContent, DialogTitle, DialogContentText, TextField } from '@mui/material';
-
-
+import AddCircleRoundedIcon from '@mui/icons-material/AddCircleRounded';
+import { Button, Dialog, DialogActions, DialogContent, DialogTitle, DialogContentText, TextField, Divider } from '@mui/material';
 
 function AddButton() {
 
@@ -12,50 +11,73 @@ function AddButton() {
     };
 
     const handleClose = () => {
-    setOpen(false);
-    };
-
-    const handleFormSubmit = (e) => {
-        e.preventDefault();
-        // Handle form submission logic here
-        console.log('Form submitted!');
-        handleClose(); // Close the dialog after form submission
-      };    
+      setOpen(false);
+      };
+    
+      const handleFormSubmit = (e) => {
+          e.preventDefault();
+          // Handle form submission logic here
+          console.log('Form submitted!');
+          handleClose(); // Close the dialog after form submission
+        }; 
+   
 
   return (
     <div>
-        <Button variant="contained" color="primary" onClick={handleClickOpen}>
-        Add Item
-      </Button>
-
+      <AddCircleRoundedIcon variant="contained" color="primary" onClick={handleClickOpen} />
       <Dialog open={open} onClose={handleClose}>
         <DialogTitle>Outlets</DialogTitle>
         <DialogContent>
-          <DialogContentText>
-            Please enter the item details below.
-          </DialogContentText>
+          <Divider />
           <form onSubmit={handleFormSubmit}>
             <TextField
               autoFocus
               margin="dense"
-              label="Item Name"
+              label="Branch Code "
               type="text"
               fullWidth
-              variant="outlined"
+              variant="standard"
+              required
+            />
+            <TextField
+              autoFocus
+              margin="dense"
+              label="Outlet Code "
+              type="text"
+              fullWidth
+              variant="standard"
+              required
+            />
+            <TextField
+              autoFocus
+              margin="dense"
+              label="Outlet Name "
+              type="text"
+              fullWidth
+              variant="standard"
+              required
+            />
+            <TextField
+              autoFocus
+              margin="dense"
+              label="Address "
+              type="text"
+              fullWidth
+              variant="standard"
               required
             />
             <DialogActions>
               <Button onClick={handleClose} color="primary">
-                Cancel
+                Close
               </Button>
               <Button type="submit" color="primary" variant="contained">
-                Submit
+                Save
               </Button>
             </DialogActions>
           </form>
         </DialogContent>
       </Dialog>
-              
+                  
     </div>
   )
 }
