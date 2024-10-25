@@ -1,26 +1,56 @@
-import React, { useState } from 'react'
+import React, { useState } from 'react';
 import AddCircleRoundedIcon from '@mui/icons-material/AddCircleRounded';
-import { Button, Dialog, DialogActions, DialogContent, DialogTitle, DialogContentText, TextField, Divider } from '@mui/material';
+import { Button, Dialog, DialogActions, DialogContent, DialogTitle, TextField, Divider } from '@mui/material';
+import outletService from '../services/outlets';
 
-function AddButton() {
+function AddButton({ onAdd }) {
+  const [open, setOpen] = useState(false);
+  const [newBranchCode, setNewBranchCode] = useState("");
+  const [newOutletCode, setNewOutletCode] = useState("");
+  const [newOutletName, setNewOutletName] = useState("");
+  const [newAddress, setNewAddress] = useState("");
 
-    const [open, setOpen] = useState(false);
-
-    const handleClickOpen = () => {
+  const handleClickOpen = () => {
     setOpen(true);
+  };
+
+  const handleClose = () => {
+    setOpen(false);
+  };
+
+  const addOutlets = (e) => {
+    e.preventDefault();
+
+    const newOutletObject = {
+      branchCode: newBranchCode,
+      outletCode: newOutletCode,
+      outletName: newOutletName,
+      address: newAddress,
     };
 
-    const handleClose = () => {
-      setOpen(false);
-      };
-    
-      const handleFormSubmit = (e) => {
-          e.preventDefault();
-          // Handle form submission logic here
-          console.log('Form submitted!');
-          handleClose(); // Close the dialog after form submission
-        }; 
-   
+    outletService.addOutlets(newOutletObject)
+      .then((returnedOutlet) => {
+        // Notify the parent component about the new outlet
+        onAdd(returnedOutlet);
+
+        // Clear the form fields after successful submission
+        setNewBranchCode("");
+        setNewOutletCode("");
+        setNewOutletName("");
+        setNewAddress("");
+
+        handleClose(); // Close the dialog after form submission
+      })
+      .catch((error) => {
+        console.error("Failed to add outlet:", error);
+      });
+  };
+
+  // Handle input changes
+  const handleNewBranchCode = (event) => setNewBranchCode(event.target.value);
+  const handleNewOutletCode = (event) => setNewOutletCode(event.target.value);
+  const handleNewOutletName = (event) => setNewOutletName(event.target.value);
+  const handleNewAddress = (event) => setNewAddress(event.target.value);
 
   return (
     <div>
@@ -29,39 +59,44 @@ function AddButton() {
         <DialogTitle>Outlets</DialogTitle>
         <DialogContent>
           <Divider />
-          <form onSubmit={handleFormSubmit}>
+          <form onSubmit={addOutlets}>
             <TextField
               autoFocus
               margin="dense"
-              label="Branch Code "
+              label="Branch Code"
               type="text"
+              value={newBranchCode}
+              onChange={handleNewBranchCode}
               fullWidth
               variant="standard"
               required
             />
             <TextField
-              autoFocus
               margin="dense"
-              label="Outlet Code "
+              label="Outlet Code"
               type="text"
+              value={newOutletCode}
+              onChange={handleNewOutletCode}
               fullWidth
               variant="standard"
               required
             />
             <TextField
-              autoFocus
               margin="dense"
-              label="Outlet Name "
+              label="Outlet Name"
               type="text"
+              value={newOutletName}
+              onChange={handleNewOutletName}
               fullWidth
               variant="standard"
               required
             />
             <TextField
-              autoFocus
               margin="dense"
-              label="Address "
+              label="Address"
               type="text"
+              value={newAddress}
+              onChange={handleNewAddress}
               fullWidth
               variant="standard"
               required
@@ -77,9 +112,8 @@ function AddButton() {
           </form>
         </DialogContent>
       </Dialog>
-                  
     </div>
-  )
+  );
 }
 
-export default AddButton
+export default AddButton;

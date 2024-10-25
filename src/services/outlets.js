@@ -8,6 +8,14 @@ async function getOutlets() {
 
 }
 
+async function addOutlets(newOutletObject) {
+    const response = await axios.post(baseUrl, newOutletObject); 
+
+    return response.data;
+    
+}
+
 export default {
     getOutlets,
+    addOutlets,
 };

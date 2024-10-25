@@ -1,75 +1,55 @@
-import React from 'react'
-import { useState, useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import outletService from '../services/outlets';
 import { Table, TableBody, TableCell, TableContainer, TableHead, TableRow } from '@mui/material';
-
+import AddButton from './AddButton';
 
 function OutletsTable() {
+  const [outlets, setOutlets] = useState([]);
 
-    const [outlet, setOutlet] = useState([]);
+  // Fetch outlets on component mount
+  useEffect(() => {
+    outletService
+      .getOutlets()
+      .then((initialOutlets) => setOutlets(initialOutlets))
+      .catch(error => {
+        console.error('Failed to fetch outlets:', error);
+      });
+  }, []);
 
-    useEffect(() => {
-        outletService
-        .getOutlets()
-        .then((initialOutlet) => setOutlet(initialOutlet));
-        
-    }, []);
+  // Function to add a new outlet to the state
+  const handleAddOutlet = (newOutlet) => {
+    setOutlets((prevOutlets) => [...prevOutlets, newOutlet]);
+  };
 
   return (
-    <TableContainer>
-      <Table>
-        <TableHead>
-          <TableRow>
-            <TableCell>Branch Code</TableCell>
-            <TableCell>Branch Name</TableCell>
-            <TableCell>Outlet Name</TableCell>
-            <TableCell>Address</TableCell>
-          </TableRow>
-        </TableHead>
-        <TableBody>
-          {outlet.map((outlet) => (
-            <TableRow key={outlet.id}>
-              <TableCell component= "th" scope="row">
-                {outlet.branchCode}               
-              </TableCell>
-              <TableCell component= "th" scope="row">
-                {outlet.outletCode}               
-              </TableCell>
-              <TableCell component= "th" scope="row">
-                {outlet.outletName}               
-              </TableCell>
-              <TableCell component= "th" scope="row">
-                {outlet.address}               
-              </TableCell>
+    <div>
+      <AddButton onAdd={handleAddOutlet} />
+      <TableContainer>
+        <Table>
+          <TableHead>
+            <TableRow>
+              <TableCell>Branch Code</TableCell>
+              <TableCell>Outlet Code</TableCell>
+              <TableCell>Outlet Name</TableCell>
+              <TableCell>Address</TableCell>
             </TableRow>
-          )
-         )}
-        </TableBody>
-      </Table>
-
-    </TableContainer>
-  )
-  //   <table>
-  //       <thead>
-  //         <tr>
-  //           <th>Branch Code</th>
-  //           <th>Outlet Code</th>
-  //           <th>Outlet Name</th>
-  //           <th>Address</th>
-  //         </tr>
-  //       </thead>
-  //       <tbody>
-  //         {outlet.map((outlet) => (
-  //           <tr key={outlet.id}>
-  //             <td>{outlet.branchCode}</td>
-  //             <td>{outlet.outletCode}</td>
-  //             <td>{outlet.outletName}</td>
-  //             <td>{outlet.address}</td>
-  //           </tr>
-  //         ))}
-  //       </tbody>
-  //     </table>
-  // )
+          </TableHead>
+          <TableBody>
+            {outlets.map((outlet) => (
+              <TableRow key={outlet.id}>
+                <TableCell component="th" scope="row">
+                  {outlet.branchCode}
+                </TableCell>
+                <TableCell>{outlet.outletCode}</TableCell>
+                <TableCell>{outlet.outletName}</TableCell>
+                <TableCell>{outlet.address}</TableCell>
+              </TableRow>
+            ))}
+          </TableBody>
+        </Table>
+      </TableContainer>
+    </div>
+  );
 }
 
-export default OutletsTable
+export default OutletsTable;
