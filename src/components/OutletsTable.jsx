@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import outletService from '../services/outlets';
 import { Table, TableBody, TableCell, TableContainer, TableHead, TableRow } from '@mui/material';
 import AddButton from './AddButton';
+import Box from '@mui/material/Box';
 
 function OutletsTable() {
   const [outlets, setOutlets] = useState([]);
@@ -23,31 +24,35 @@ function OutletsTable() {
 
   return (
     <div>
+      <Box>
       <AddButton onAdd={handleAddOutlet} />
-      <TableContainer>
-        <Table>
-          <TableHead>
-            <TableRow>
-              <TableCell>Branch Code</TableCell>
-              <TableCell>Outlet Code</TableCell>
-              <TableCell>Outlet Name</TableCell>
-              <TableCell>Address</TableCell>
-            </TableRow>
-          </TableHead>
-          <TableBody>
-            {outlets.map((outlet) => (
-              <TableRow key={outlet.id}>
-                <TableCell component="th" scope="row">
-                  {outlet.branchCode}
-                </TableCell>
-                <TableCell>{outlet.outletCode}</TableCell>
-                <TableCell>{outlet.outletName}</TableCell>
-                <TableCell>{outlet.address}</TableCell>
+      </Box>
+      <Box>
+        <TableContainer>
+          <Table>
+            <TableHead>
+              <TableRow>
+                <TableCell>Branch Code</TableCell>
+                <TableCell>Outlet Code</TableCell>
+                <TableCell>Outlet Name</TableCell>
+                <TableCell>Address</TableCell>
               </TableRow>
-            ))}
-          </TableBody>
-        </Table>
-      </TableContainer>
+            </TableHead>
+            <TableBody>
+              {outlets.map((outlet) => (
+                <TableRow key={outlet.id}>
+                  <TableCell component="th" scope="row">
+                    {outlet.branchCode}
+                  </TableCell>
+                  <TableCell>{outlet.outletCode}</TableCell>
+                  <TableCell>{outlet.outletName}</TableCell>
+                  <TableCell>{outlet.address}</TableCell>
+                </TableRow>
+              ))}
+            </TableBody>
+          </Table>
+        </TableContainer>
+      </Box>
     </div>
   );
 }
