@@ -16,8 +16,12 @@ import {
   Dialog,
   DialogActions,
   DialogContent,
-  DialogTitle,
+  DialogTitle, 
 } from '@mui/material';
+import Grid2 from '@mui/material/Grid2';
+import EditIcon from '@mui/icons-material/Edit';
+import DeleteIcon from '@mui/icons-material/Delete';
+import { Grid3x3 } from '@mui/icons-material';
 
 function OutletsTable() {
   const [outlets, setOutlets] = useState([]);
@@ -100,24 +104,28 @@ function OutletsTable() {
   const paginatedOutlets = outlets.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage);
 
   return (
-    <div>
-      <Box>
+    <div>  
+      <Grid2 container spacing={2}>        
+        <Box>
         <AddButton onAdd={handleAddOutlet} />
-      </Box>
-
-      {/* Conditional display of Edit and Delete buttons */}
-      {selected.length > 0 && (
-        <Box display="flex" justifyContent="flex-end" gap={1} marginBottom={2}>
-          <Button variant="contained" color="primary" onClick={handleEdit}>
-            Edit
-          </Button>
-          <Button variant="contained" color="secondary" onClick={() => outletService.deleteOutlet(selected[0]).then(() => setOutlets(outlets.filter(outlet => outlet.id !== selected[0])))}>
-            Delete
-          </Button>
+        </Box>      
+           {/* Conditional display of Edit and Delete buttons */}           
+        {selected.length > 0 && (
+          <Grid2 size = {2} >
+        <Box display="flex" justifyContent="flex-start" gap={1} marginBottom={2}>
+          <EditIcon 
+              variant="contained" 
+              color="primary" 
+              onClick={handleEdit} />          
+          <DeleteIcon 
+              variant="contained" 
+              color="secondary" 
+              onClick={() => outletService.deleteOutlet(selected[0]).then(() => setOutlets(outlets.filter(outlet => outlet.id !== selected[0])))} />           
         </Box>
-      )}
-
-      <Box>
+        </Grid2>        
+      )}        
+        </Grid2>         
+       <Box>
         <TableContainer>
           <Table>
             <TableHead>

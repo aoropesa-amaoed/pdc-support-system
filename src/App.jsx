@@ -8,12 +8,12 @@ import Container from '@mui/material/Container'
 function App() {   
 
   return (    
-    <Container>
+   
       <Routes>
         <Route path="/" element = {<Home />} />
         <Route path="/Outlets" element = {<Outlets />} /> 
       </Routes>   
-    </Container>
+   
        
   )
 }
