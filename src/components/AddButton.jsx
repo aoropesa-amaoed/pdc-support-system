@@ -55,11 +55,11 @@ function AddButton({ onAdd }) {
   return (
     <div>
       <AddCircleRoundedIcon variant="contained" color="primary" onClick={handleClickOpen} />
-      <Dialog open={open} onClose={handleClose}>
+      <Dialog open={open} onClose={handleClose} maxWidth="sm" fullWidth>
         <DialogTitle>Outlets</DialogTitle>
         <DialogContent>
           <Divider />
-          <form onSubmit={addOutlets}>
+          <form id="add-outlet-form" onSubmit={addOutlets}>
             <TextField
               autoFocus
               margin="dense"
@@ -101,16 +101,16 @@ function AddButton({ onAdd }) {
               variant="standard"
               required
             />
-            <DialogActions>
-              <Button onClick={handleClose} color="primary">
-                Close
-              </Button>
-              <Button type="submit" color="primary" variant="contained">
-                Save
-              </Button>
-            </DialogActions>
           </form>
         </DialogContent>
+        <DialogActions>
+          <Button onClick={handleClose} color="primary">
+            Close
+          </Button>
+          <Button type="submit" color="primary" variant="contained" form="add-outlet-form">
+            Save
+          </Button>
+        </DialogActions>
       </Dialog>
     </div>
   );

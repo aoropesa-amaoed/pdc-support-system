@@ -16,12 +16,12 @@ import {
   Dialog,
   DialogActions,
   DialogContent,
-  DialogTitle, 
+  DialogTitle,
+  Paper, 
 } from '@mui/material';
 import Grid2 from '@mui/material/Grid2';
 import EditIcon from '@mui/icons-material/Edit';
 import DeleteIcon from '@mui/icons-material/Delete';
-import { Grid3x3 } from '@mui/icons-material';
 
 function OutletsTable() {
   const [outlets, setOutlets] = useState([]);
@@ -107,64 +107,68 @@ function OutletsTable() {
     <div>  
       <Grid2 container spacing={2}>        
         <Box>
-        <AddButton onAdd={handleAddOutlet} />
+          <AddButton onAdd={handleAddOutlet} />
         </Box>      
-           {/* Conditional display of Edit and Delete buttons */}           
+        {/* Conditional display of Edit and Delete buttons */}           
         {selected.length > 0 && (
-          <Grid2 size = {2} >
-        <Box display="flex" justifyContent="flex-start" gap={1} marginBottom={2}>
-          <EditIcon 
-              variant="contained" 
-              color="primary" 
-              onClick={handleEdit} />          
-          <DeleteIcon 
-              variant="contained" 
-              color="secondary" 
-              onClick={() => outletService.deleteOutlet(selected[0]).then(() => setOutlets(outlets.filter(outlet => outlet.id !== selected[0])))} />           
-        </Box>
-        </Grid2>        
-      )}        
-        </Grid2>         
-       <Box>
-        <TableContainer>
-          <Table>
-            <TableHead>
-              <TableRow>
-                <TableCell></TableCell>
-                <TableCell>Branch Code</TableCell>
-                <TableCell>Outlet Code</TableCell>
-                <TableCell>Outlet Name</TableCell>
-                <TableCell>Address</TableCell>
-              </TableRow>
-            </TableHead>
-            <TableBody>
-              {paginatedOutlets.map((outlet) => (
-                <TableRow key={outlet.id}>
-                  <TableCell padding="checkbox">
-                    <Checkbox
-                      checked={selected.includes(outlet.id)}
-                      onChange={() => handleSelect(outlet.id)}
-                    />
-                  </TableCell>
-                  <TableCell>{outlet.branchCode}</TableCell>
-                  <TableCell>{outlet.outletCode}</TableCell>
-                  <TableCell>{outlet.outletName}</TableCell>
-                  <TableCell>{outlet.address}</TableCell>
+          <Grid2 xs={2} key="edit-delete-buttons">
+            <Box display="flex" justifyContent="flex-start" gap={1} marginBottom={2}>
+              <EditIcon 
+                variant="contained" 
+                color="primary" 
+                onClick={handleEdit} 
+              />          
+              <DeleteIcon 
+                variant="contained" 
+                color="secondary" 
+                onClick={() => outletService.deleteOutlet(selected[0]).then(() => setOutlets(outlets.filter(outlet => outlet.id !== selected[0])))} 
+              />           
+            </Box>
+          </Grid2>        
+        )}        
+      </Grid2>         
+      <Paper elevation={3} sx={{ p: 5, marginTop: 2 }}>
+        <Box sx={{ p: 2 }}>
+          <TableContainer>
+            <Table>
+              <TableHead color='primary' sx={{ padding: 16, textAlign: 'center', backgroundColor: '#7f0ea6' }}>
+                <TableRow>
+                  <TableCell></TableCell>
+                  <TableCell>Branch Code</TableCell>
+                  <TableCell>Outlet Code</TableCell>
+                  <TableCell>Outlet Name</TableCell>
+                  <TableCell>Address</TableCell>
                 </TableRow>
-              ))}
-            </TableBody>
-          </Table>
-        </TableContainer>
-        <TablePagination
-          rowsPerPageOptions={[5, 10, 25]}
-          component="div"
-          count={outlets.length}
-          rowsPerPage={rowsPerPage}
-          page={page}
-          onPageChange={handleChangePage}
-          onRowsPerPageChange={handleChangeRowsPerPage}
-        />
-      </Box>
+              </TableHead>
+              <TableBody>
+                {paginatedOutlets.map((outlet) => (
+                  <TableRow key={outlet.id} sx={{ '&:last-child td, &:last-child th': { border: 0 } }}>
+                    <TableCell padding="checkbox">
+                      <Checkbox
+                        checked={selected.includes(outlet.id)}
+                        onChange={() => handleSelect(outlet.id)}
+                      />
+                    </TableCell>
+                    <TableCell>{outlet.branchCode}</TableCell>
+                    <TableCell>{outlet.outletCode}</TableCell>
+                    <TableCell>{outlet.outletName}</TableCell>
+                    <TableCell>{outlet.address}</TableCell>
+                  </TableRow>
+                ))}
+              </TableBody>
+            </Table>
+          </TableContainer>
+          <TablePagination
+            rowsPerPageOptions={[5, 10, 25]}
+            component="div"
+            count={outlets.length}
+            rowsPerPage={rowsPerPage}
+            page={page}
+            onPageChange={handleChangePage}
+            onRowsPerPageChange={handleChangeRowsPerPage}
+          />
+        </Box>
+      </Paper>
 
       {/* Edit Dialog */}
       <Dialog open={editOpen} onClose={() => setEditOpen(false)}>
